@@ -57,7 +57,7 @@ def setrun(claw_pkg='geoclaw'):
     # Number of space dimensions:
     clawdata.num_dim = num_dim
 
-    # Lower and upper edge of computational domain:
+    # NOT USED : See [ax,bx] x [ay,by] in .ini file
     clawdata.lower[0] = 0.0
     clawdata.upper[0] = 1000.0
 
@@ -68,7 +68,7 @@ def setrun(claw_pkg='geoclaw'):
 
     # Number of grid cells: Coarsest grid
 
-    # Size of grid in ForestClaw (ignored here).  See fclaw_options.ini
+    # NOT USED : See mx,my in .ini file
     clawdata.num_cells[0] = 8
     clawdata.num_cells[1] = 8
 
@@ -76,6 +76,8 @@ def setrun(claw_pkg='geoclaw'):
     # ---------------
     # Size of system:
     # ---------------
+
+    # NOT USED : See mx,my in .ini file
 
     # Number of equations in the system:
     clawdata.num_eqn = 3
@@ -92,6 +94,7 @@ def setrun(claw_pkg='geoclaw'):
     # Initial time:
     # -------------
 
+    # NOT USED : See mx,my in .ini file
     clawdata.t0 = 0.0
 
 
@@ -111,6 +114,7 @@ def setrun(claw_pkg='geoclaw'):
     # Note that the time integration stops after the final output time.
     # The solution at initial time t0 is always written in addition.
 
+    # NOT USED : See .ini file
     clawdata.output_style = 1
 
     if clawdata.output_style == 1:
@@ -130,6 +134,7 @@ def setrun(claw_pkg='geoclaw'):
         clawdata.output_t0 = True
         
 
+    # NOT USED : See .ini file
     clawdata.output_format = 'ascii'      # 'ascii' or 'binary' 
 
     clawdata.output_q_components = 'all'   # could be list such as [True,True]
@@ -145,6 +150,7 @@ def setrun(claw_pkg='geoclaw'):
     # The current t, dt, and cfl will be printed every time step
     # at AMR levels <= verbosity.  Set verbosity = 0 for no printing.
     #   (E.g. verbosity == 2 means print only on levels 1 and 2.)
+    # NOT USED : See .ini file
     clawdata.verbosity = 3
 
 
@@ -152,6 +158,8 @@ def setrun(claw_pkg='geoclaw'):
     # --------------
     # Time stepping:
     # --------------
+
+    # NOT USED : See .ini file
 
     # if dt_variable==1: variable time steps used based on cfl_desired,
     # if dt_variable==0: fixed time steps dt = dt_initial will always be used.
@@ -178,6 +186,8 @@ def setrun(claw_pkg='geoclaw'):
     # ------------------
     # Method to be used:
     # ------------------
+
+    # NOT USED : See .ini file
 
     # Order of accuracy:  1 => Godunov,  2 => Lax-Wendroff plus limiters
     clawdata.order = 2
@@ -262,6 +272,8 @@ def setrun(claw_pkg='geoclaw'):
 
     # max number of refinement levels:
     amrdata.amr_levels_max = 2
+
+    # NOT USED : See .ini file
 
     # List of refinement ratios at each level (length at least mxnest-1)
     amrdata.refinement_ratios_x = [4,4]
