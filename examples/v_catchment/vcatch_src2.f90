@@ -8,12 +8,7 @@ SUBROUTINE vcatch_src2(meqn,mbc,mx,my,xlower,ylower,dx,dy,q,maux,aux,t,dt)
   use geoclaw_module, only: RAD2DEG, pi, dry_tolerance
   use geoclaw_module, only: ambient_pressure, rho_air
 
-!!  use storm_module, only: wind_forcing, pressure_forcing
-!!  use storm_module, only: wind_drag
-!!  use storm_module, only: wind_index, pressure_index
-!!  use storm_module, only: storm_direction, storm_location
-
-  !! use friction_module, only: variable_friction, friction_index
+  use friction_module, only: variable_friction, friction_index
 
   implicit none
 
@@ -44,10 +39,6 @@ SUBROUTINE vcatch_src2(meqn,mbc,mx,my,xlower,ylower,dx,dy,q,maux,aux,t,dt)
 
   logical :: rainfall
   double precision :: rainfall_rate
-
-  logical :: variable_friction
-
-  variable_friction = .false.
 
   !! Friction source term
   if (friction_forcing) then
@@ -91,7 +82,6 @@ SUBROUTINE vcatch_src2(meqn,mbc,mx,my,xlower,ylower,dx,dy,q,maux,aux,t,dt)
         do i=1,mx
            xc = xlower + (i-0.5)*dx
            yc = ylower + (j-0.5)*dy
-
            if (t .le. 5400) then
               q(i,j,1) = q(i,j,1) + dt*rainfall_rate  !! m/s
            endif
