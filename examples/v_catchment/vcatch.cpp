@@ -102,6 +102,7 @@ main (int argc, char **argv)
     fclaw_options_t             *fclaw_opt;
     fclaw2d_clawpatch_options_t *clawpatch_opt;
     fc2d_geoclaw_options_t      *geoclaw_opt;
+    user_options_t              *vatch_opt;
 
     fclaw2d_global_t            *glob;
     fclaw2d_domain_t            *domain;
@@ -115,6 +116,7 @@ main (int argc, char **argv)
     fclaw_opt       =             fclaw_options_register(app,"fclaw_options.ini");
     clawpatch_opt   = fclaw2d_clawpatch_options_register(app,"fclaw_options.ini");
     geoclaw_opt     =      fc2d_geoclaw_options_register(app,"fclaw_options.ini");
+    vatch_opt       =            vcatch_options_register(app,"fclaw_options.ini");
 
     /* Read configuration file(s) and command line, and process options */
     options = fclaw_app_get_options (app);
@@ -135,6 +137,7 @@ main (int argc, char **argv)
         fclaw2d_options_store           (glob, fclaw_opt);
         fclaw2d_clawpatch_options_store (glob, clawpatch_opt);
         fc2d_geoclaw_options_store      (glob, geoclaw_opt);
+        vcatch_options_store            (glob, vatch_opt);
 
         run_program(glob);
         

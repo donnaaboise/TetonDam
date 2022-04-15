@@ -1,6 +1,10 @@
 add_library(vcatch_f OBJECT
 	qinit.f90
+	setprob.f90
 	vcatch_src2.f90
+	friction_field.f90
+	vcatch_setaux.f90	
+	vcatch_flooded.f90
 )
 
 target_link_libraries(vcatch_f PRIVATE 
@@ -11,6 +15,7 @@ target_link_libraries(vcatch_f PRIVATE
 add_executable(vcatch 
 	vcatch_user.cpp
 	vcatch_user.h
+	vcatch_options.c 
 	vcatch.cpp
 )
 

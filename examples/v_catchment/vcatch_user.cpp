@@ -30,15 +30,50 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <fclaw2d_clawpatch.h>
 #include <fc2d_geoclaw.h>
 
+
+static
+void vatch_problem_setup(fclaw2d_global_t* glob)
+{
+    const user_options_t* user = vcatch_get_options(glob);
+
+    if (glob->mpirank == 0)
+    {
+        FILE *f = fopen("setprob.data","w");
+        fprintf(f,  "%-24d      %s",user->example,"\% example\n");
+        fprintf(f,  "%-24d      %s",user->rainfall,"\% rainfall\n");
+        fprintf(f,  "%-24.16f   %s",user->rainfall_rate,"\% rainfall_rate\n");
+        fprintf(f,  "%-24.16f   %s",user->rainfall_time,"\% rainfall_time\n");
+        fprintf(f,  "%-24.16f   %s",user->mannings_channel,"\% mannings_channel\n");
+        fprintf(f,  "%-24.16f   %s",user->mannings_slope,"\% mannings_slope\n");
+        fprintf(f,  "%-24.16f   %s",user->y_channel,"\% y_channel\n");
+        fprintf(f,  "%-24.16f   %s",user->dry_tol,"\% dry_tol\n");
+        fclose(f);
+    }
+
+    /* We want to make sure node 0 gets here before proceeding */
+    fclaw2d_domain_barrier (glob->domain);  /* redundant?  */
+    SETPROB();
+}
+
+
+
 void vcatch_link_solvers(fclaw2d_global_t *glob)
 {
+
+   fclaw2d_vtable_t *vt = fclaw2d_vt();
+   vt->problem_setup = vatch_problem_setup;
 
     /* These are set by GeoClaw for convenience, but the user
        can set these with customized functions, if desired. */
     fc2d_geoclaw_vtable_t* geoclaw_vt = fc2d_geoclaw_vt();
 
     geoclaw_vt->qinit = &VCATCH_QINIT;
-
     geoclaw_vt->src2  = &VCATCH_SRC2;
+
+    fclaw2d_clawpatch_vtable_t *clawpatch_vt = fclaw2d_clawpatch_vt();
+
+    clawpatch_vt->fort_conservation_check = &VCATCH_FLOODED;
+
+    //geoclaw_vt->setaux = &VCATCH_SETAUX;
 
 }

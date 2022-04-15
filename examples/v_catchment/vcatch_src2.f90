@@ -10,6 +10,8 @@ SUBROUTINE vcatch_src2(meqn,mbc,mx,my,xlower,ylower,dx,dy,q,maux,aux,t,dt)
 
   use friction_module, only: variable_friction, friction_index
 
+  use rainfall_mod
+
   implicit none
 
   !! Input parameters
@@ -37,8 +39,7 @@ SUBROUTINE vcatch_src2(meqn,mbc,mx,my,xlower,ylower,dx,dy,q,maux,aux,t,dt)
   !! Nominal density of water
   real(kind=8), parameter :: rho = 1025.d0
 
-  logical :: rainfall
-  double precision :: rainfall_rate
+  variable_friction = .True.
 
   !! Friction source term
   if (friction_forcing) then
@@ -58,7 +59,14 @@ SUBROUTINE vcatch_src2(meqn,mbc,mx,my,xlower,ylower,dx,dy,q,maux,aux,t,dt)
                        endif
                     enddo
                  else
-                    !!coeff = aux(friction_index,i,j)
+                  !! Bypass any aux array values;  aux not set for this problem.
+                     xc = xlower + (i-0.5)*dx
+                     yc = ylower + (j-0.5)*dy
+                     if (abs(yc) .le. y_channel) then
+                        coeff = mannings_channel
+                     else
+                        coeff = mannings_slope
+                     endif
                  endif
 
                  !! Calculate source term
@@ -74,15 +82,14 @@ SUBROUTINE vcatch_src2(meqn,mbc,mx,my,xlower,ylower,dx,dy,q,maux,aux,t,dt)
   endif
   !! End of friction source term
 
-  !! add rainfall (make this a parameter)
-  rainfall = .TRUE.
-  rainfall_rate = 3e-6
+
+  !! add rainfall (make this a parameter)    
   if (rainfall) then
      do j=1,my
         do i=1,mx
            xc = xlower + (i-0.5)*dx
            yc = ylower + (j-0.5)*dy
-           if (t .le. 5400) then
+           if (t .le. rainfall_time .and. abs(yc) .le. y_channel) then
               q(i,j,1) = q(i,j,1) + dt*rainfall_rate  !! m/s
            endif
          end do

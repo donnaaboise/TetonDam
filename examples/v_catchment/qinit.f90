@@ -3,6 +3,7 @@ SUBROUTINE vcatch_qinit(meqn,mbc,mx,my,xlower,ylower,dx,dy,q,maux,aux)
 
     use geoclaw_module, only: grav
 
+    use rainfall_mod, only : dry_tol
     implicit none
 
     ! Subroutine arguments
@@ -19,7 +20,7 @@ SUBROUTINE vcatch_qinit(meqn,mbc,mx,my,xlower,ylower,dx,dy,q,maux,aux)
         x = xlower + (i - 0.5d0)*dx
         do j=1-mbc,my+mbc
            y = ylower + (j - 0.5d0) * dx
-           q(1,i,j) = 1.5e-8
+           q(1,i,j) = dry_tol
            q(2,i,j) = 0.d0
            q(3,i,j) = 0.d0
         enddo

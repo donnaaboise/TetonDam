@@ -31,13 +31,55 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #ifdef __cplusplus
 extern "C"
 {
-#if 0
-}
 #endif
-#endif
+
+typedef struct user_options
+{
+    int example;
+
+    int rainfall;
+    double rainfall_time;
+    double rainfall_rate;
+
+    double y_channel;
+
+    double mannings_channel;
+    double mannings_slope;
+
+    double dry_tol;
+
+    int claw_version;
+
+    int is_registered;
+} user_options_t;
+
+
+user_options_t*  vcatch_options_register (fclaw_app_t * app,
+                                          const char *configfile);
+
+user_options_t* vcatch_get_options(fclaw2d_global_t *glob);
+
+void vcatch_options_store (fclaw2d_global_t* glob, user_options_t* vcatch_opt);
+
+
+
 
 
 void vcatch_link_solvers(fclaw2d_global_t *glob);
+
+
+#define SETPROB   FCLAW_F77_FUNC(setprob,SETPROB)
+void SETPROB();
+
+#define VCATCH_SETAUX  FCLAW_F77_FUNC(vcatch_setaux, VCATCH_SETAUX)
+void VCATCH_SETAUX(const int* mbc,
+                   const int* mx, const int* my,
+                   const double* xlower, const double* ylower,
+                   const double* dx, const double* dy,
+                   const int* maux, double aux[],
+                   const int* is_ghost, const int* nghost,
+                   const int* mint);
+
 
 #define VCATCH_QINIT   FCLAW_F77_FUNC(vcatch_qinit,VCATCH_QINIT)
 void VCATCH_QINIT(const int* meqn,const int* mbc,
@@ -56,13 +98,17 @@ void VCATCH_SRC2(const int* meqn,
                  const double* dt);
 
 
+/** Fortran subroutine name */
+#define VCATCH_FLOODED FCLAW_F77_FUNC(vcatch_flooded, VCATCH_FLOODED)
+void VCATCH_FLOODED(int *mx, int *my, int* mbc, int* meqn,
+                    double *dx, double *dy,
+                    double* area, double *q, double* sum,
+                    double* c_kahan);
+
 /* Mappings */
 fclaw2d_map_context_t* fclaw2d_map_new_nomap();
 
 #ifdef __cplusplus
-#if 0
-{
-#endif
 }
 #endif
 

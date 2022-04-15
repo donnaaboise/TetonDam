@@ -331,6 +331,67 @@ def setrun(claw_pkg='geoclaw'):
     # for gauges append lines of the form  [gaugeno, x, y, t1, t2]
     # rundata.gaugedata.gauges.append([])
 
+
+    # ---------------
+    # gauges
+    # ---------------
+
+regions = rundata.regiondata.regions
+
+
+# Region for entire domain
+regions.append([0,maxlevel-1,0, 1e10, clawdata.lower[0],clawdata.upper[0],
+                    clawdata.lower[1],clawdata.upper[1]])
+
+# Gauge 1 - Watershed outlet 50 s resolution
+    xc,yc = [995, 0]
+    rundata.gaugedata.gauges.append([1,xc,yc,0.,clawdata.tfinal])  # gauge 1
+
+# Gauge 2 - Hydrograph of the outlet of one hillslope 50s resolution
+    xc,yc = [750, 15]
+    rundata.gaugedata.gauges.append([2,xc,yc,0.,clawdata.tfinal])  # gauge 2
+
+# Gauge 3 - Cross Section Profile of the River (string of gauges and interpolate between)
+    xc,yc = [500, -10]
+    rundata.gaugedata.gauges.append([2,xc,yc,0.,clawdata.tfinal])  # gauge 3
+
+# Gauge 4 - Cross Section Profile of the River continued 
+    xc,yc = [500, -5]
+    rundata.gaugedata.gauges.append([2,xc,yc,0.,clawdata.tfinal])  # gauge 4
+
+# Gauge 5 - Cross Section Profile of the River continued 
+    xc,yc = [500, 0]
+    rundata.gaugedata.gauges.append([2,xc,yc,0.,clawdata.tfinal])  # gauge 5
+
+# Gauge 6 - Cross Section Profile of the River continued 
+    xc,yc = [500, 5]
+    rundata.gaugedata.gauges.append([2,xc,yc,0.,clawdata.tfinal])  # gauge 6
+
+# Gauge 7 - Cross Section Profile of the River continued 
+    xc,yc = [500, 10]
+    rundata.gaugedata.gauges.append([2,xc,yc,0.,clawdata.tfinal])  # gauge 7
+
+# Gauge 8 - Longitudinal Channel Profile (string of gauges start)
+    xc,yc = [0, 0]
+    rundata.gaugedata.gauges.append([2,xc,yc,0.,clawdata.tfinal])  # gauge 8
+
+#Gauge 9 - Longitudinal Channel Profile (continued)
+    xc,yc = [250, 0]
+    rundata.gaugedata.gauges.append([2,xc,yc,0.,clawdata.tfinal])  # gauge 9
+
+# Gauge 10 - Longitudinal Channel Profile (continued)
+    xc,yc = [500, 0]
+    rundata.gaugedata.gauges.append([2,xc,yc,0.,clawdata.tfinal])  # gauge 10
+
+# Gauge 11 - Longitudinal Channel Profile (continued)
+    xc,yc = [750, 0]
+    rundata.gaugedata.gauges.append([2,xc,yc,0.,clawdata.tfinal])  # gauge 11
+
+# Gauge 12 - Longitudinal Channel Profile (continued)
+    xc,yc = [995, 0]
+    rundata.gaugedata.gauges.append([2,xc,yc,0.,clawdata.tfinal])  # gauge 12
+
+
     return rundata
     # end of function setrun
     # ----------------------
