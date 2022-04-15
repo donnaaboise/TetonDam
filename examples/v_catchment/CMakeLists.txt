@@ -2,8 +2,6 @@ add_library(vcatch_f OBJECT
 	qinit.f90
 	setprob.f90
 	vcatch_src2.f90
-	friction_field.f90
-	vcatch_setaux.f90	
 	vcatch_flooded.f90
 )
 
